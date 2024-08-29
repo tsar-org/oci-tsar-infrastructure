@@ -3,6 +3,8 @@ version: "3"
 vars:
   TERRAFORM_CONTAINER_NAME: terraform
   LINTER_CONTAINER_NAME: tflint
+  SOPS_ENCRYPT_FILE: secret.enc.yaml
+  AGE_KEY_FILE: /age/keys.txt
 
 tasks:
   sethooks:
@@ -16,8 +18,6 @@ tasks:
   install:
     deps: [sethooks]
     cmds:
-      # - if [ ! -f ./terraform/terraform.tfvars ]; then echo "./terraform/terraform.tfvars not found"; exit 1; fi
-      # - if [ ! -d ./.oci/ ]; then echo "./.oci/ not found"; exit 1; fi
       - docker compose up -d --build
       - task init
 
@@ -67,3 +67,8 @@ tasks:
   log:
     cmds:
       - docker compose logs
+
+  edit-secret:
+    aliases: [es]
+    cmds:
+      - export SOPS_AGE_KEY_FILE=$(pwd)/{{.AGE_KEY_FILE}} && EDITOR="code --wait" sops  {{.SOPS_ENCRYPT_FILE}}

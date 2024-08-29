@@ -70,7 +70,13 @@ Temporary Items
 # iCloud generated files
 *.icloud
 
-### .oci ###
-.oci
+### age ###
+/age
+
+### oci ###
+/.oci
+
+### dotenv ###
+.env
 
 # End of https://www.toptal.com/developers/gitignore/api/terraform
