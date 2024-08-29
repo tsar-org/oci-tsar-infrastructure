@@ -1,0 +1,18 @@
+services:
+  terraform:
+    image: hashicorp/terraform:latest
+    volumes:
+      - ./terraform:/terraform
+      - ./.oci:/.oci
+    working_dir: /terraform
+    entrypoint: ash
+    tty: true
+
+  tflint:
+    image: ghcr.io/terraform-linters/tflint
+    volumes:
+      - ./terraform:/terraform
+      - ./.oci:/.oci
+    working_dir: /terraform
+    entrypoint: ash
+    tty: true

@@ -1,0 +1,69 @@
+version: "3"
+
+vars:
+  TERRAFORM_CONTAINER_NAME: terraform
+  LINTER_CONTAINER_NAME: tflint
+
+tasks:
+  sethooks:
+    cmds:
+      - pre-commit install
+
+  unsethooks:
+    cmds:
+      - pre-commit uninstall
+
+  install:
+    deps: [sethooks]
+    cmds:
+      # - if [ ! -f ./terraform/terraform.tfvars ]; then echo "./terraform/terraform.tfvars not found"; exit 1; fi
+      # - if [ ! -d ./.oci/ ]; then echo "./.oci/ not found"; exit 1; fi
+      - docker compose up -d --build
+      - task init
+
+  up:
+    cmds:
+      - docker compose up -d
+
+  down:
+    cmds:
+      - docker compose down
+
+  destroy:
+    deps: [unsethooks]
+    cmds:
+      - docker compose down --rmi all --volumes --remove-orphans
+
+  init:
+    cmds:
+      - docker compose exec -T {{.TERRAFORM_CONTAINER_NAME}} terraform init {{ .CLI_ARGS }}
+      - docker compose exec -T {{.LINTER_CONTAINER_NAME}} tflint --init
+
+  lint:
+    cmds:
+      - docker compose exec -T {{.TERRAFORM_CONTAINER_NAME}} terraform fmt
+      - docker compose exec -T {{.TERRAFORM_CONTAINER_NAME}} terraform validate
+      - docker compose exec -T {{.LINTER_CONTAINER_NAME}} tflint
+
+  plan:
+    deps: [lint]
+    cmds:
+      - docker compose exec -T {{.TERRAFORM_CONTAINER_NAME}} terraform plan {{ .CLI_ARGS }}
+
+  apply:
+    deps: [lint]
+    cmds:
+      - docker compose exec -T {{.TERRAFORM_CONTAINER_NAME}} terraform apply
+
+  tf-destroy:
+    deps: [lint]
+    cmds:
+      - docker compose exec -T {{.TERRAFORM_CONTAINER_NAME}} terraform destroy
+
+  sh:
+    cmds:
+      - docker compose exec {{.TERRAFORM_CONTAINER_NAME}} ash
+
+  log:
+    cmds:
+      - docker compose logs
