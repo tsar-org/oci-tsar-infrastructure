@@ -25,9 +25,14 @@ resource "oci_core_security_list" "tsar_sl" {
   }
 
   egress_security_rules {
-    protocol         = "all"
+    protocol         = 6
     destination_type = "CIDR_BLOCK"
     destination      = "0.0.0.0/0"
+    description      = "access to container registries via HTTPS"
+    tcp_options {
+      min = 443
+      max = 443
+    }
   }
 }
 
@@ -37,6 +42,7 @@ resource "oci_core_subnet" "tsar_subnet" {
   cidr_block     = "10.0.0.0/24"
   compartment_id = oci_identity_compartment.tsar_compartment.id
   vcn_id         = oci_core_vcn.tsar_vcn.id
+  #TODO: set dhcp options
   # dhcp_options_id = oci_core_dhcp_options.test_oci_dhcp_options.id
   display_name = "tsar-container-instance-public-subnet"
   dns_label    = "containers"

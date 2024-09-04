@@ -6,7 +6,7 @@ data "oci_identity_availability_domains" "tsar_local_ads" {
   compartment_id = oci_identity_compartment.tsar_compartment.id
 }
 
-resource "oci_container_instances_container_instance" "tsar_container_instance" {
+resource "oci_container_instances_container_instance" "tsar_minecraft_container_instance" {
 
   availability_domain      = data.oci_identity_availability_domains.tsar_local_ads.availability_domains[0].name
   compartment_id           = oci_identity_compartment.tsar_compartment.id
