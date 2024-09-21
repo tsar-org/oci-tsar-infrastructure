@@ -1,7 +1,9 @@
 creation_rules:
   - path_regex: secret.enc.yaml
     age: >-
-      age1ecyjl2y7nfw7jdkakeh76wpf6wc3y0tx0u3r6a66ch39uclmapdsz2732x
+      age1ecyjl2y7nfw7jdkakeh76wpf6wc3y0tx0u3r6a66ch39uclmapdsz2732x,
+      age1vnuz639eqsrrc45ysc496lkpmufjwaxr54fvdf6q8h845whf3gjqumcj27
 
 # age 所有者 上から順に
 # taiki-kuraishi
+# s1gnsgrfu

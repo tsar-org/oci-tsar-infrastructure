@@ -1,33 +1,12 @@
-# test-oci-terraform
+# tsar-infrastructure
 
 ## Requirement
 
 - docker(<https://www.docker.com/ja-jp/>)
 - task(<https://taskfile.dev/installation/>)
-
-    ```sh
-    brew install go-task/tap/go-task
-    ```
-
 - sops(<https://github.com/getsops/sops>)
-
-    ```sh
-    brew install sops
-    ```
-
 - age(<https://github.com/FiloSottile/age>)
-
-    ```sh
-    brew install age
-    ```
-
 - vscode cli
-
-    ```text
-    Visual Studio Codeを起動
-    コマンドパレットを開く(cmd+shift+p)
-    "Shell Command: Install 'code' command in PATH"を選択
-    ```
 
 ## credentials setup
 
