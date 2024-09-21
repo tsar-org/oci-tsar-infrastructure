@@ -68,3 +68,8 @@ tasks:
     aliases: [es]
     cmds:
       - export SOPS_AGE_KEY_FILE=$(pwd)/{{.AGE_KEY_FILE}} && EDITOR="code --wait" sops  {{.SOPS_ENCRYPT_FILE}}
+
+  sops-update-keys:
+    aliases: [suk]
+    cmds:
+      - export SOPS_AGE_KEY_FILE=$(pwd)/{{.AGE_KEY_FILE}} && sops updatekeys secret.enc.yaml
