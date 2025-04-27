@@ -26,3 +26,8 @@ updates:
     labels:
       - "dependencies"
       - "terraform"
+
+  - package-ecosystem: "docker-compose"
+    directory: "/"
+    schedule:
+      interval: "daily"

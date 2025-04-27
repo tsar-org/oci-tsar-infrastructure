@@ -1,4 +1,3 @@
-# VCN
 resource "oci_core_vcn" "tsar_vcn" {
 
   compartment_id = oci_identity_compartment.tsar_compartment.id
@@ -7,53 +6,51 @@ resource "oci_core_vcn" "tsar_vcn" {
   dns_label      = "tsarvcn"
 }
 
-# Security List
-resource "oci_core_security_list" "tsar_sl" {
+# resource "oci_core_security_list" "tsar_sl" {
 
-  compartment_id = oci_identity_compartment.tsar_compartment.id
-  vcn_id         = oci_core_vcn.tsar_vcn.id
-  display_name   = "tsar-security-list-for-public-subnet"
+#   compartment_id = oci_identity_compartment.tsar_compartment.id
+#   vcn_id         = oci_core_vcn.tsar_vcn.id
+#   display_name   = "tsar-security-list-for-public-subnet"
 
-  ingress_security_rules {
-    protocol    = "6" # TCP
-    source_type = "CIDR_BLOCK"
-    source      = "0.0.0.0/0"
-    tcp_options {
-      min = 25565
-      max = 25565
-    }
-  }
+#   ingress_security_rules {
+#     protocol    = "6" # TCP
+#     source_type = "CIDR_BLOCK"
+#     source      = "0.0.0.0/0"
+#     tcp_options {
+#       min = 25565
+#       max = 25565
+#     }
+#   }
 
-  egress_security_rules {
-    protocol         = 6
-    destination_type = "CIDR_BLOCK"
-    destination      = "0.0.0.0/0"
-    description      = "access to container registries via HTTPS"
-    tcp_options {
-      min = 443
-      max = 443
-    }
-  }
-}
+#   egress_security_rules {
+#     protocol         = 6
+#     destination_type = "CIDR_BLOCK"
+#     destination      = "0.0.0.0/0"
+#     description      = "access to container registries via HTTPS"
+#     tcp_options {
+#       min = 443
+#       max = 443
+#     }
+#   }
+# }
 
-# Subnet
-resource "oci_core_subnet" "tsar_subnet" {
+# resource "oci_core_subnet" "tsar_subnet" {
 
-  cidr_block     = "10.0.0.0/24"
-  compartment_id = oci_identity_compartment.tsar_compartment.id
-  vcn_id         = oci_core_vcn.tsar_vcn.id
-  #TODO: set dhcp options
-  # dhcp_options_id = oci_core_dhcp_options.test_oci_dhcp_options.id
-  display_name = "tsar-container-instance-public-subnet"
-  dns_label    = "containers"
-  security_list_ids = [
-    oci_core_security_list.tsar_sl.id
-  ]
-  route_table_id = oci_core_route_table.tsar_rt.id
-}
+#   cidr_block     = "10.0.0.0/24"
+#   compartment_id = oci_identity_compartment.tsar_compartment.id
+#   vcn_id         = oci_core_vcn.tsar_vcn.id
+#   #TODO: set dhcp options
+#   # dhcp_options_id = oci_core_dhcp_options.test_oci_dhcp_options.id
+#   display_name = "tsar-container-instance-public-subnet"
+#   dns_label    = "containers"
+#   security_list_ids = [
+#     oci_core_security_list.tsar_sl.id
+#   ]
+#   route_table_id = oci_core_route_table.tsar_rt.id
+# }
 
 # Internet Gateway
-resource "oci_core_internet_gateway" "tsar_ig" {
+resource "oci_core_internet_gateway" "tsar_internet_gateway" {
 
   compartment_id = oci_identity_compartment.tsar_compartment.id
   vcn_id         = oci_core_vcn.tsar_vcn.id
@@ -62,13 +59,13 @@ resource "oci_core_internet_gateway" "tsar_ig" {
 }
 
 # Route Table
-resource "oci_core_route_table" "tsar_rt" {
+resource "oci_core_route_table" "tsar_route_table" {
 
   compartment_id = oci_identity_compartment.tsar_compartment.id
   vcn_id         = oci_core_vcn.tsar_vcn.id
   display_name   = "tsar-internet-gateway-route-table"
   route_rules {
     destination       = "0.0.0.0/0"
-    network_entity_id = oci_core_internet_gateway.tsar_ig.id
+    network_entity_id = oci_core_internet_gateway.tsar_internet_gateway.id
   }
 }
