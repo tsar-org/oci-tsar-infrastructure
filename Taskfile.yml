@@ -51,7 +51,7 @@ tasks:
     cmds:
       - docker compose exec -T {{.TERRAFORM_SERVICE_NAME}} terraform apply
 
-  tf-destroy:
+  terraform-destroy:
     deps: [lint]
     cmds:
       - docker compose exec -T {{.TERRAFORM_SERVICE_NAME}} terraform destroy
@@ -59,10 +59,6 @@ tasks:
   sh:
     cmds:
       - docker compose exec {{.TERRAFORM_SERVICE_NAME}} ash
-
-  log:
-    cmds:
-      - docker compose logs
 
   edit-secret:
     aliases: [es]

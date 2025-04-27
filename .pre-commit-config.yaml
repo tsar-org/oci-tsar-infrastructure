@@ -27,12 +27,3 @@ repos:
         language: system
         pass_filenames: false
         always_run: true
-
-  - repo: local
-    hooks:
-      - id: plan
-        name: plan
-        entry: task plan
-        language: system
-        pass_filenames: false
-        always_run: true

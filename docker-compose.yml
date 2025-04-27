@@ -1,6 +1,6 @@
 services:
   terraform:
-    image: hashicorp/terraform:latest
+    image: hashicorp/terraform:1.9.5
     volumes:
       - ./terraform:/workdir/terraform
       - ./.oci:/workdir/.oci
